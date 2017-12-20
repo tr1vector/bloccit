@@ -10,6 +10,8 @@ Rails.application.routes.draw do
     resources :sponsored_posts
   end
 
+  resources :users, only: [:new, :create]
+
   resources :advertisements
 
   resources :questions
