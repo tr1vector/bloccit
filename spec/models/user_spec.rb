@@ -32,7 +32,7 @@ RSpec.describe User, type: :model do
     end
 
     it "should capitalize first and last name if already capitalized" do
-        user = User.new(name: "Matt Fricke", email: "user@bloccit.com", password: "password")
+      user = User.new(name: "Matt Fricke", email: "user@bloccit.com", password: "password")
     	user.save!
     	expect(user.name).to eq "Matt Fricke"
     end
