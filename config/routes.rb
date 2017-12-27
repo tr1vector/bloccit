@@ -12,6 +12,9 @@ Rails.application.routes.draw do
 
   resources :users, only: [:new, :create]
 
+  post 'users/confirm/' => 'users#confirm'
+  post 'users/new'
+
   resources :advertisements
 
   resources :questions
