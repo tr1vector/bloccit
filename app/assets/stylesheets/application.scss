@@ -17,3 +17,13 @@
 @import "bootstrap-sprockets";
 @import "bootstrap";
 @import "font-awesome";
+
+img {
+	margin-right: 5px;
+	border-radius: 30px;
+	padding: 5px;
+}
+
+.current-user {
+	margin-top: 15px;
+}
