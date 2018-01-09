@@ -1,6 +1,7 @@
 class TopicsController < ApplicationController
 	before_action :require_sign_in, except: [:index, :show]
-	before_action :authorize_user, except: [:index, :show]
+	before_action :authorize_update, except: [:index, :show, :new, :create, :destroy]
+	before_action :authorize_create_delete, except: [:index, :show, :edit, :update]
 
 	def index
 		@topics = Topic.all
@@ -26,7 +27,10 @@ class TopicsController < ApplicationController
 	end
 
 	def edit
-		@topic = Topic.find(params[:id])
+		if current_user.admin? || current_user.moderator?
+			@topic = Topic.find(params[:id])
+		end
+		# @topic = Topic.find(params[:id])
 	end
 
 	def update
@@ -37,7 +41,7 @@ class TopicsController < ApplicationController
 			flash[:notice] = "Topic was updated."
 			redirect_to @topic
 		else
-			flash.now[:alert] = "Error saving topic.  Please try again."
+			flash.now[:alert] = "You must be a Moderator or an Admin to do that."
 			render :edit
 		end
 	end
@@ -59,7 +63,14 @@ class TopicsController < ApplicationController
 		params.require(:topic).permit(:name, :description, :public)
 	end
 
-	def authorize_user
+	def authorize_update
+		unless current_user.admin? || current_user.moderator?
+			flash[:alert] = "You must be an admin or moderator to do that."
+			redirect_to topics_path
+		end
+	end
+
+	def authorize_create_delete
 		unless current_user.admin?
 			flash[:alert] = "You must be an admin to do that."
 			redirect_to topics_path
