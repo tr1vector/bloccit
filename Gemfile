@@ -43,6 +43,8 @@ gem 'jbuilder', '~> 2.5'
 gem 'thor', '0.20.0'
 # Used for encrypting passwords
 gem 'bcrypt'
+
+gem 'figaro', '1.0'
  
 group :development do
   gem 'listen', '~> 3.0.5'
