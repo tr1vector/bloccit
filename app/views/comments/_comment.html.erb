@@ -1,7 +1,10 @@
 <%= content_tag :div, class: 'media', id: "comment-#{comment.id}" do %>
+	<div class="gravatar">
+		<%= image_tag comment.user.avatar_url(48) %>
+	</div>
 	<div class="media-body">
 		<small>
-			<%= comment.user.name %> commented <%= time_ago_in_words(comment.created_at) %> ago
+			<%= link_to comment.user.name, user_path(comment.user) %> commented <%= time_ago_in_words(comment.created_at) %> ago >> <%= link_to "Link", topic_post_url(comment.post.topic, comment.post, anchor: "comment-#{comment.id}") %>
 			<% if user_is_authorized_for_comment?(comment) %>
 				| <%= link_to "Delete", [comment.post, comment], method: :delete %>
 			<% end %>

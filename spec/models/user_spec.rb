@@ -130,12 +130,12 @@ RSpec.describe User, type: :model do
       @post = topic.posts.create!(title: RandomData.random_sentence, body: RandomData.random_paragraph, user: user)
     end
 
-    it "does not return nil since favorited post is automatically favorited once user creates post" do
-      expect(user.favorite_for(@post)).not_to be_nil
+    it "returns nil for Favorite Post" do
+      expect(user.favorite_for(@post)).to be_nil
     end
 
     it "returns the appropriate favorite if it exists" do
-      favorite = user.favorites.where(post: @post)
+      favorite = user.favorites.where(post: @post).create
       expect(user.favorite_for(@post)).to eq(favorite)
     end
   end

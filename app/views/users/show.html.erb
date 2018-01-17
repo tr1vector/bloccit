@@ -2,26 +2,59 @@
 	<div class="col-md-8">
 		<div class="media">
 			<br />
-
-			<% avatar_url = @user.avatar_url(128) %>
+			<% avatar_url = @user.avatar_url(110) %>
 			<% if avatar_url %>
 				<div class="media-left">
 					<%= image_tag avatar_url, class: 'media-object' %>
 				</div>
 			<% end %>
-			<div class="media-body">
+			<div class="media-body user-body">
 				<h2 class="media-heading"><%= @user.name %></h2>
 				<small>
-					<%= pluralize(@user.posts.count, 'post') %>
-					<%= pluralize(@user.comments.count, 'comment') %>
+					<%= pluralize(@user.posts.count, 'post') %>,
+					<%= pluralize(@user.comments.count, 'comment') %>,
+					<%= pluralize(@user.favorites.count, 'favorite') %>
 				</small>
 			</div>
 		</div>
 	</div>
 </div>
 
-<h2>Posts</h2>
-<%= render @user.posts %>
-
-<h2>Comments</h2>
-<%= render @user.comments %>
+<div class="row">
+	<div class="col-md-4">
+		<h2 class="head-center">Posts</h2>
+		<% if user_posts? %>
+			<%= render @user.posts %>
+		<% else %>
+			<p><%= @user.name %> has not written any posts.</p>
+		<% end %>
+	</div>
+	<div class="col-md-4">
+		<h2 class="head-center">Comments</h2>
+		<% if user_comments? %>
+			<%= render @user.comments %>
+		<% else %>
+			<p><%= @user.name %> has not written any comments.</p>
+		<% end %>
+	</div>
+	<div class="col-md-4">
+		<h2 class="head-center">Favorites</h2>
+		<% if user_favorites? %>
+			<% @user.favorites.each do |favorite| %>
+				<div class="media">
+					<div class="gravatar">
+						<%= image_tag favorite.post.user.avatar_url(48) %>
+					</div>
+					<div class="media-body">
+						<h4 class="media-heading">
+							<%= link_to favorite.post.title, topic_post_path(favorite.post.topic, favorite.post) %>
+						</h4>
+						<small><%= favorite.post.comments.count %> comments / <%= favorite.post.votes.count %> votes</small>
+					</div>
+				</div>
+			<% end %>
+		<% else %>
+			<p><%= @user.name %> has not favorited any posts.</p>
+		<% end %>
+	</div>
+</div>

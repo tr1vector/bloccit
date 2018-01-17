@@ -36,7 +36,7 @@ class User < ApplicationRecord
 	end
 
 	def favorite_for(post)
-		favorites.where(post_id: post.id)
+		favorites.where(post_id: post.id).first
 	end
 
 	def avatar_url(size)
